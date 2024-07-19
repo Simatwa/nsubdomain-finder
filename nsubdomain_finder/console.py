@@ -6,8 +6,13 @@ def error_handler(func):
     def decorator():
         try:
             func()
+        except KeyboardInterrupt:
+            print("^ Goodbye")
         except Exception as e:
             print(f"Quitting - {e.args[1] if e.args and len(e.args)>1 else str(e)}")
+            import sys
+
+            sys.exit(1)
 
     return decorator
 
