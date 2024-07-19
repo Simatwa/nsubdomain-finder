@@ -81,7 +81,9 @@ class Finder:
         """
         subdomains: list[tuple[str]] = re.findall(
             self._patterns[ip_type],
-            Util.run_command(f"nmap {self.domain} --script dns-brute.nse").stdout,
+            Util.run_command(
+                f"nmap {self.domain} -p 80,443 --script dns-brute.nse"
+            ).stdout,
         )
         if subdomains:
             return subdomains
