@@ -29,7 +29,7 @@ def main():
         "-t",
         "--type",
         choices=ips,
-        default="ipv6",
+        default="ipv4v6",
         help="IP type defaults to %(default)s",
         metavar="|".join(ips),
     )
@@ -38,7 +38,7 @@ def main():
     )
     args = parser.parse_args()
     f = Finder(args.domain)
-    results = f.sort_subdomains(f.run(args.type))
+    results = f.sort_subdomains(f.run(args.type), in_order=True)
 
     import rich
 
@@ -47,7 +47,7 @@ def main():
     else:
         from rich.table import Table
 
-        table = Table(show_lines=True, title=f"{args.domain} Subdomains")
+        table = Table(show_lines=True, title=f"Subdomains for {args.domain}")
         table.add_column("No.", justify="center", style="white")
         table.add_column("Subdomains", style="cyan")
         table.add_column(f"IP Addresses ({args.type})", style="yellow")

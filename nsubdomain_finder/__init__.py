@@ -68,6 +68,9 @@ class Finder:
             "ipv6": r".\s{5}([\W\w][^\s]+)\s-\s(\w{1,4}:\w{1,4}.*)",
         }
 
+    def __str__(self):
+        return f"<SubdomainFinder target='{self.domain}'>"
+
     def run(
         self, ip_type: Literal["ipv4", "ipv6", "ipv4v6"] = "ipv4v6"
     ) -> list[tuple[str]]:
@@ -92,14 +95,17 @@ class Finder:
             "Subdomain enumeration completed without any find."
         )
 
-    def sort_subdomains(self, findings: list[tuple[str]]) -> dict[str, list[str]]:
-        """Maps IP addresses resolving to one adress to that particula adress
+    def sort_subdomains(
+        self, findings: list[tuple[str]], in_order: bool = False
+    ) -> dict[str, list[str]]:
+        """Maps IP addresses resolving to one hostnme to that particula hostname
 
         Args:
             findings (list[tuple[str]]): Subdomain scan result.
+            in_order (bool): Arrange the subdomain names alphabetically. Defaults to False.
 
         Returns:
-            dict[str, list[str]]: {subdomain_name : [IP addresses]}
+            dict[str, list[str]]: {subdomain : [IP addresses]}
         """
         subdomain_map = {}
         for subdomain, ip in findings:
@@ -107,4 +113,12 @@ class Finder:
                 subdomain_map[subdomain].append(ip)
             else:
                 subdomain_map[subdomain] = [ip]
+
+        if in_order:
+            ordered_subdomain_map = {}
+            subdomains = list(subdomain_map.keys())
+            subdomains.sort()
+            for subdomain in subdomains:
+                ordered_subdomain_map[subdomain] = subdomain_map[subdomain]
+            return ordered_subdomain_map
         return subdomain_map
