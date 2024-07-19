@@ -5,7 +5,8 @@
 
 ## Installation
 
-> [!NOTE] : Ensure you have [nmap](nmap.org) tool installed.
+> [!IMPORTANT]
+>  Ensure you have [nmap](nmap.org) tool installed.
 
 ```sh
 pip install nsubdomain-finder[cli]
