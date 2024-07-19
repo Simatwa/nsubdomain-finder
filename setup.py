@@ -3,7 +3,7 @@ from setuptools import setup
 
 INSTALL_REQUIRE = []
 
-cli_reqs = ["click==13.3.4"]
+cli_reqs = ["rich==13.3.4"]
 
 
 EXTRA_REQUIRE = {
