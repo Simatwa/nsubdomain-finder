@@ -51,7 +51,7 @@ def main():
         table.add_column("No.", justify="center", style="white")
         table.add_column("Subdomains", style="cyan")
         table.add_column(f"IP Addresses ({args.type})", style="yellow")
-        for count, subdomain_ips in enumerate(results.items()):
+        for count, subdomain_ips in enumerate(results.items(), start=1):
             subdomain, ips = subdomain_ips
             table.add_row(str(count), subdomain, "\n".join(ips))
         rich.print(table)
