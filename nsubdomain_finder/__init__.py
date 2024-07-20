@@ -45,6 +45,9 @@ class ZeroSubdomainFoundError(Exception):
 
     pass
 
+class InvalidDomainError(Exception):
+    """Invalid domain"""
+    pass
 
 class Finder:
     """Perform dns-bruteforce for enumerating subdomains using nmap tool"""
@@ -59,8 +62,21 @@ class Finder:
             self.nmap_version = Util.run_command("nmap --version").stdout
         except subprocess.SubprocessError as e:
             raise "Failed to detect nmap tool in your system." from e
+        
+        def validate_domain():
+            domain_match = re.match(
+               r"\w+\.\w+",
+                domain
+            )
 
-        self.domain = domain
+            if domain_match:
+                return domain_match.group()
+            else:
+                raise InvalidDomainError(
+                    f"Invalid domain passed '{domain}'"
+                )
+    
+        self.domain = validate_domain()
 
         self._patterns = {
             "ipv4v6": r".\s{5}([\W\w][^\s]+)\s-\s(.+)",
